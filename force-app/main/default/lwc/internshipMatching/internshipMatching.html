@@ -1,0 +1,34 @@
+<template>
+    <div class="slds-clearfix slds-p-around_small slds-m-bottom_small slds-box grey">
+        <div class="controls-container">
+            <div class="slds-m-right_x-small slds-text-body_regular slds-p-top_x-small">
+                Match by:
+            </div>
+            <div class="slds-m-right_large">
+                <lightning-combobox name="matchBy" label="Match by" value={matchBy} options={matchByOptions}
+                    variant="label-hidden" onchange={handleMatchByChange} class="control"></lightning-combobox>
+            </div>
+
+        </div>
+    </div>
+    <div class="slds-grid slds-gutters slds-m-bottom_small matchApp">
+        <div class={seatsStudentsStyle}>
+            <div class={recordLists}>
+                <div class="slds-col slds-size_1-of-2">
+                    <c-open-seats onselected={handleSelectedSeat} student-id={studentId} seat-id={seatId}
+                        match-by={matchBy}></c-open-seats>
+                </div>
+                <div class="slds-col slds-size_1-of-2">
+                    <c-unmatched-students onselected={handleSelected} student-id={studentId} match-by={matchBy}
+                        selected-seat-id={seatId} ></c-unmatched-students>
+                </div>
+
+            </div>
+        </div>
+        <div class={matchDetailsStyle}>
+            <c-match-details seat-id={seatId} student-id={studentId} match-id={matchId} container={container} 
+                onupdate={handleMatchUpdate} onexpand={handleExpand} oncontract={handleContract} match-by={matchBy}>
+            </c-match-details>
+        </div>
+    </div>
+</template>

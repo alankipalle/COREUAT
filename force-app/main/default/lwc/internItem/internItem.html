@@ -1,0 +1,25 @@
+<template>
+    <div onclick={handleClick}>
+        <div class={selectedClass}>
+            <div class="slds-p-horizontal_small">
+                <div class="slds-float_right">
+                    <p>
+                        <lightning-icon icon-name={statusIcon} class="my-icon" size="xx-small" style="zoom: 45%"
+                            alternative-text="Approved" title="Approved"></lightning-icon>
+                    </p>
+                </div>
+                <template if:true={record}>
+                    <dl>
+                        <dt><b>
+                                <lightning-formatted-url value={record.url} tooltip="IWS Record" label={record.Name}
+                                    target="_blank">
+                                </lightning-formatted-url>
+                            </b></dt>
+                        <dd>{record.Track}</dd>
+                        <dt>{record.Specialty}</dt>
+                    </dl>
+                </template>
+            </div>
+        </div>
+    </div>
+</template>

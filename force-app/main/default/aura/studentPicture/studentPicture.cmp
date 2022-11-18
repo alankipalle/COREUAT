@@ -1,0 +1,66 @@
+<aura:component implements="force:lightningQuickActionWithoutHeader,force:hasRecordId,force:appHostable,flexipage:availableForAllPageTypes"
+                >
+    <aura:attribute name="recordId" type="String" /> 
+    <aura:attribute name="record" type="Object" />
+    <aura:attribute name="simpleRecord" type="Object" />    
+    <aura:attribute name="recordLoadError" type="String"/>
+    <aura:attribute name="requiredFields" type="String[]" default="Id" access="global" />    
+    <aura:attribute name="requiredField" type="String" access="global" />
+    <aura:attribute name="requiredField1" type="String" access="global" />
+    <aura:attribute name="reqdField" type="String" access="global" />
+    <aura:attribute name="reqdField1" type="Boolean" default ="False" access="global" />
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <!-- Load the Current Record -->
+    <force:recordData aura:id="originalRecord"
+                      recordId="{!v.recordId}"
+                      targetRecord="{!v.record}"
+                      targetFields="{!v.simpleRecord}"
+                      fields="{!v.requiredFields}"
+                      targetError="{!v.recordLoadError}"
+                      />
+    
+    <div >  
+        <lightning:card iconName="standard:user" title="Student Photo">
+            <div class="slds-p-horizontal--small">   
+                <div class="slds-grid">
+                    <div class="slds-col slds-size_1-of-2"> 
+                        <aura:if isTrue="{!and(empty(v.reqdField1), empty(v.reqdField))}">
+                            <div class="slds-form-element__control">
+                                <img src="{!$Resource.stdPhotoAvtar}"/>
+                            </div>
+                        </aura:if>
+                        
+                        <aura:if isTrue="{!and(not(empty(v.reqdField)),empty(v.reqdField1))}">
+                            <div class="slds-form-element__control">
+                                <img class="mythumbnail" src="{!'/servlet/servlet.FileDownload?file='+v.reqdField}"/>  
+                           </div>
+                        </aura:if>
+                        
+                        <aura:if isTrue="{!and(not(empty(v.reqdField1)),empty(v.reqdField))}">
+                            <div class="slds-form-element__control">
+                                   <lightning:fileCard fileId="{!v.reqdField1}" description="Student Photo"/>
+                           </div>
+                        </aura:if>
+                        
+                        <aura:if isTrue="{!and(not(empty(v.reqdField1)),not(empty(v.reqdField)))}">
+                            <div class="slds-form-element__control">
+                                <lightning:fileCard fileId="{!v.reqdField1}" description="Student Photo"/>
+                            </div>
+                        </aura:if>
+                        
+                        
+                        
+                    </div>
+                </div>
+            </div>
+        </lightning:card>
+    </div>
+    <!-- Display Lightning Data Service errors, if any -->
+    <aura:if isTrue="{!not(empty(v.recordLoadError))}">
+        <div class="recordError">
+            {!v.recordLoadError}
+        </div>
+    </aura:if>
+    
+</aura:component>

@@ -1,0 +1,9 @@
+.descriptionText {
+    --sds-c-textarea-sizing-min-height: 50px;
+}
+.bodyText {
+    --sds-c-textarea-sizing-min-height: 200px;
+}
+.errorText {
+    --sds-c-textarea-sizing-min-height: 50px;
+}

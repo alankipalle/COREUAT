@@ -1,0 +1,23 @@
+.hidden {
+    display: none;
+}
+.white {
+    background: white;
+}
+.grey {
+    background: rgb(238,238,238);
+}
+.controls-container {
+    display: flex;
+    justify-content: flex-end;
+}
+.matchList {
+    height: 100%;
+}
+.matchApp {
+    
+    height: auto;
+}
+.img{
+    height: inherit;
+}

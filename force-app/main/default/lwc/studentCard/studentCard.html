@@ -1,0 +1,56 @@
+<template>
+    <div onclick={handleClick} class={selectedCard}>
+       <article class="slds-card">
+       <div class="slds-grid slds-card__header">
+            <div class="slds-col slds-size_2-of-12">
+                <div class="slds-grid_align-left">
+                    <template if:true={studentLink}>
+                        <div class="slds-avatar_large slds-p-right_xx-small img">
+                            <img src={student.imageLink} />
+                        </div>
+                    </template>
+                    <template if:false={studentLink}>
+                        <lightning-icon icon-name="standard:people" size="medium"></lightning-icon>
+                    </template>
+                </div>
+            </div>
+            <div class="slds-col slds-size_7-of-12">
+                <div class="slds-p-left_xx-small">
+                    <div class="slds-text-heading_small slds-text-title_bold slds-text-align_left fontsizestudentName">
+                        {student.name}
+                    </div>
+                    <div class="slds-text-body_x-small slds-text-align_left fontsizestudent">{student.trackFamilyName}</div>
+                    <div class="slds-text-body_x-small slds-text-align_left fontsizestudent">{student.internReadinessRating}</div>
+                        <template if:true={hasCar}>
+                            <div><lightning-icon icon-name="custom:custom31" size="small" class="grey-icon"></lightning-icon></div>
+                        </template>
+                        <template if:false={hasCar}>
+                            <div class="nocarIconSize"><img src={nocarIcon}></div>
+                        </template>
+                    </div>
+                </div>
+                <div class="slds-col slds-size_3-of-12">
+                    <template if:true={matchStatus}>
+                        <div class="match"><img src={match_banner}></div>
+                    </template>
+                    <template if:true={matchStatusText}>
+                        <div class="slds-text-body_xx-small textCardSelected">(matched<br/>to seat <br/>selected)</div>    
+                    </template>
+                    <template if:true={potentialMatchStatus}>
+                        <div class="match"><img src={possiblematch_banner}></div>   
+                    </template>
+                    <template if:true={matchPossibleStatus}>
+                        <div class="slds-text-body_xx-small textCardSelected">(possible<br/>match<br/>to seat <br/>selected)</div>    
+                    </template> 
+                    <template if:true={matchByType}>
+                        <div class="slds-text-body_xx-small textCardSelected">
+                            <div class={studentSelectedText}>(Student<br/> Selected)</div>
+                        </div>
+                    </template>
+
+                    
+                </div>
+            </div>
+        </article>
+    </div>
+</template>

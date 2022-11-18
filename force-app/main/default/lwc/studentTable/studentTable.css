@@ -1,0 +1,13 @@
+.selected_border{
+    border:2px solid rgb(0, 95, 178);
+}
+table{
+    table-layout: fixed;
+}
+
+.powderBlue{
+    background: powderblue;
+}
+.img{
+    height: inherit;
+}

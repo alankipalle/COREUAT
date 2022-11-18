@@ -1,0 +1,4 @@
+<design:component label="Student Photo">
+    <design:attribute name="requiredField" label="Enter the Field API" description="The field should return Attachment ID" />
+    <design:attribute name="requiredField1" label="Enter the Field API for file" description="The field should return File ID" />
+</design:component>

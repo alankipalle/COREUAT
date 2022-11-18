@@ -1,0 +1,158 @@
+<template>
+
+    <!-- modal start -->
+    <template if:true={isModalOpen}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+            aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <!-- modal header start -->
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                        title="Close" onclick={closeModal}>
+                        <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
+                            size="small"></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Move Internships</h2>
+                </header>
+
+                <!-- modal body start -->
+                <div style="position:relative;">
+                    <template if:true={showSpinner}>
+                        <lightning-spinner alternative-text="Loading"></lightning-spinner>
+                    </template>
+
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                        <div
+                            class="slds-box slds-p-around_none slds-m-top_x-small slds-m-bottom_medium slds-m-horizontal_none">
+                            <lightning-layout multiple-rows>
+                                <lightning-layout-item padding="around-small" size="12" small-device-size="6"
+                                    medium-device-size="4" large-device-size="6">
+                                    <div class="custom-box slds-box slds-p-around_medium">
+
+                                        <c-yu-custom-lookup icon-name="custom:custom16" name="source"
+                                            s-object-api-name="Internship_Work_Site__c" label="Source IWS"
+                                            onlookupupdate={lookupRecord} fields={iwsFields}
+                                            sub-title-fields={subTitleFields} placeholder="Select Target IWS here..."
+                                            lookup-records={iwsearchResult.data} default-record-id={sourceIWSId}
+                                            onlookupsearchval={searchHandler}>
+                                        </c-yu-custom-lookup>
+
+                                        <div class="slds-p-around_x-small">
+                                            <template if:true={sourceIWSIntList}>
+
+                                                <template if:true={billingReady}>
+                                                    <div class="slds-notify slds-notify_alert slds-alert_warning"
+                                                        role="alert">
+                                                        <span class="slds-assistive-text">warning</span>
+                                                        <h2>This IWS is in billing and Billing Status:
+                                                            <b>{iws.BillingConfirmationStatus__c}</b> and <b>Billing
+                                                                Ready {iws.BillingReady__c}.</b>
+                                                        </h2>
+                                                    </div>
+                                                </template>
+                                                <lightning-layout multiple-rows="true" vertical-align="stretch"
+                                                    pull-to-boundary="small">
+                                                    <template for:each={sourceIWSIntList} for:item="internItem">
+                                                        <lightning-layout-item key={internItem.Id} size="6"
+                                                            padding="around-small" class="slds-var-p-around_x-small">
+                                                            <c-intern-item key={internItem.id} record={internItem}
+                                                                onselect={hanldeSelected}
+                                                                selected={internItem.selected}>
+                                                            </c-intern-item>
+                                                        </lightning-layout-item>
+                                                    </template>
+                                                </lightning-layout>
+                                                <footer class="slds-post__footer">
+                                                    <div class="slds-float_left">
+                                                        {sourceRecordCount} Internships
+                                                    </div>
+                                                </footer>
+                                            </template>
+                                            <template if:false={sourceIWSIntList}>
+                                                <div class="slds-m-around_medium">
+                                                    No Internships found.
+                                                </div>
+                                            </template>
+                                        </div>
+                                    </div>
+
+
+
+
+                                </lightning-layout-item>
+                                <lightning-layout-item padding="around-small" size="12" small-device-size="6"
+                                    medium-device-size="4" large-device-size="6">
+                                    <div class="custom-box slds-box slds-p-around_medium">
+                                        <c-yu-custom-lookup icon-name="custom:custom16"
+                                            s-object-api-name="Internship_Work_Site__c" name="target" label="Target IWS"
+                                            onlookupupdate={lookupRecord} fields={iwsFields}
+                                            sub-title-fields={subTitleFields} placeholder="Select Target IWS here..."
+                                            lookup-records={iwsearchResult.data} onlookupsearchval={searchHandler}>
+                                        </c-yu-custom-lookup>
+
+                                        <div class="slds-p-around_x-small">
+                                            <template if:true={targetIWSIntList}>
+
+                                                <lightning-layout multiple-rows="true" vertical-align="stretch"
+                                                    pull-to-boundary="small">
+                                                    <template for:each={targetIWSIntList} for:item="internItem">
+                                                        <lightning-layout-item key={internItem.Id} size="6"
+                                                            padding="around-small" class="slds-var-p-around_x-small">
+                                                            <c-intern-item key={internItem.id} record={internItem}
+                                                                selected={internItem.selected}>
+                                                            </c-intern-item>
+                                                        </lightning-layout-item>
+                                                    </template>
+                                                </lightning-layout>
+                                                <footer class="slds-post__footer">
+                                                    <div class="slds-float_left">
+                                                        {targetRecordCount} Internships
+                                                    </div>
+                                                </footer>
+                                            </template>
+                                            <template if:false={targetIWSIntList}>
+                                                <div class="slds-m-around_medium">
+                                                    No Internships found.
+                                                </div>
+                                            </template>
+                                        </div>
+                                    </div>
+
+                                </lightning-layout-item>
+                            </lightning-layout>
+
+                            <div class="slds-align_absolute-center">
+                                <lightning-icon icon-name="action:approval" class="my-icon" size="xx-small"
+                                    style="zoom: 45%" alternative-text="Approved" title="Approved"></lightning-icon>
+                                &nbsp; Not in Billing &nbsp;
+
+                                <lightning-icon icon-name="action:close" class="my-icon" size="xx-small"
+                                    style="zoom: 45%" alternative-text="Approved" title="Approved">
+                                </lightning-icon>
+                                &nbsp; Billing
+                            </div>
+                            <div class="slds-align_absolute-center  slds-m-around_x-small">
+                                <lightning-button variant="brand" label="Move" title="Primary action"
+                                    onclick={handleClick} class="slds-m-left_x-small" disabled={btnDisable}>
+                                </lightning-button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+            <!-- modal footer start-->
+            <footer class="slds-modal__footer">
+                <button class="slds-button slds-button_neutral" onclick={hideModalBox}>Cancel</button>
+            </footer>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+    <!-- modal end -->
+
+
+
+</template>
